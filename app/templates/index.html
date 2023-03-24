@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>soup recipe</title>
+	<script src="static/aframe.min.js"></script>
+	<!-- <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script> -->
+	<script src="static/jquery.min.js"></script>
+	<style>
+			body {
+				clear: both;
+				background-color: #ffffff;
+			}
+	
+			.container {
+				position: absolute;
+				width: 100%;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				z-index: 1000;
+				visibility: visible;
+			}
+	
+			.btn {
+				--bg-color: #e5e5e5;
+				--font-color: #333;
+				position: absolute;
+				left: 50%;
+				top: 0;
+				transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				border-radius: 5px;
+				padding: 16px 30px;
+				text-align: center;
+				cursor: pointer;
+				text-decoration: none;
+				color: black;
+				background-color: #e5e5e5;
+				font-size: 40px;
+				border: 0;
+				box-shadow: inset 2px 2px 2px 0px rgb(255 255 255 / 50%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%);
+				transition: all 600ms ease-out;
+				/* 以下为核心代码 */
+				background-size: 200% 100%;
+				background-position: right bottom;
+				background-image: linear-gradient(to right, var(--font-color) 50%, var(--bg-color) 50%);
+			}
+	
+			.btn:hover {
+				color: white;
+				background-position: left bottom;
+			}
+	
+			.tips {
+				display: none;
+				z-index: 1000;
+				position: absolute;
+				left: 50%;
+				top: 45%;
+				transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				/* width: 150px; */
+				/* height: 150px; */
+				background-color: white;
+				font-size: 35px;
+				padding: 10px;
+				background-color: fff;
+				border-radius: 10px;
+				color: #333;
+			}
+	</style>
+</head>
+
+<body>
+	<a-scene id="mainscene" visible="false">
+		<a-assets>
+			<img id="start" crossorigin="anonymous" src="static/start.png">
+			<img id="star" crossorigin="anonymous" src="static/star.png">
+			<img id="arrow" crossorigin="anonymous" src="static/arrow.png">
+			<img id="correct" crossorigin="anonymous" src="static/correct.png">
+			<img id="wrong" crossorigin="anonymous" src="static/wrong.png">
+
+			<img id="pear" crossorigin="anonymous" src="static/pear.png">
+			<img id="chuanbei" crossorigin="anonymous" src="static/chuanbei.png">
+			<img id="pork" crossorigin="anonymous" src="static/pork.png">
+			<img id="bowl water" crossorigin="anonymous" src="static/bowl water.png">
+			<img id="peel" crossorigin="anonymous" src="static/peel.png">
+			<img id="carrot" crossorigin="anonymous" src="static/carrot.png">
+			<img id="lianou" crossorigin="anonymous" src="static/lianou.png"> 
+			<img id="corn" crossorigin="anonymous" src="static/corn.png">
+			<img id="fish" crossorigin="anonymous" src="static/fish.png">
+			<img id="melon" crossorigin="anonymous" src="static/melon.png">
+		</a-assets>
+		<!-- bg -->
+
+		<a-entity class="pear" position="2 0.25 5" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#pear" width="2" height="2"></a-image>
+		</a-entity>
+		<a-entity class="chuanbei" position="5 0.25 -2" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#chuanbei" width="2.8" height="2"></a-image>
+		</a-entity>
+		<a-entity class="water" position="-5 0.25 -3" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#bowl water" width="3" height="2"></a-image>
+		</a-entity>
+		<a-entity class="fish" position="-4 0.25 2" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#fish" width="3" height="2"></a-image>
+		</a-entity>
+		<a-entity class="pork" position="-3 0.25 3" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#pork" width="2" height="2"></a-image>
+		</a-entity>
+		<a-entity class="peel" position="3 0.25 3" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#peel" width="2" height="2"></a-image>
+		</a-entity>
+		<a-entity class="carrot" position="-1 0.25 10" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#carrot" width="2" height="2"></a-image>
+		</a-entity>
+		<a-entity class="corn" position="-4 0.25 10" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#corn" width="2" height="2"></a-image>
+		</a-entity>
+		<a-entity class="melon" position="4 0.25 4" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+			<a-image class="link" src="#melon" width="2" height="2"></a-image>
+		</a-entity>
+
+		<a-sky color="#fff"></a-sky>
+
+		<a-entity position="0 1.2 -5" rotation="0 0 0" start-btn>
+			<a-text value="Press here" width="6" position="-0.6 0.6 0" color="black">
+			</a-text>
+			<a-entity class="start" event-set__mouseenter="scale: 1.1 1.1 1" event-set__mouseleave="scale: 1 1 1"
+				canvas-updater>
+				<a-image class="link" src="#start" width=".8" height=".8"></a-image>
+			</a-entity>
+		</a-entity>
+
+		<a-entity position="-0.6 1.8 -5" rotation="0 0 0">
+			<a-text position="-0.6 1.8 0" width="18" value="Ingredients for Chinese Tussilago, Pear, and Pork Bone Soup" color="black">
+			</a-text>
+		</a-entity>
+
+		<!-- objs -->
+		
+		<a-entity class="pear_check" position="2 0.25 5" rotation="0 90 0" visible="false"
+			event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1" canvas-updater>
+			<a-image src="#correct" width=".3" height=".3"></a-image>
+		</a-entity>
+		
+		<a-entity class="chuanbei_check" position="5 0.25 -2" rotation="-20 90 10" visible="false"
+			event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1" canvas-updater>
+			<a-image src="#correct" width=".4" height=".4"></a-image>
+		</a-entity>
+		
+		<a-entity class="pork_check" position="-3 0.25 3" rotation="0 40 0" visible="false"
+			event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1" canvas-updater>
+			<a-image src="#correct" width=".3" height=".3"></a-image>
+		</a-entity>
+		
+		<a-entity class="water_check" position="-5 -0.25 -3" rotation="0 15 0" visible="false"
+			event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1" canvas-updater>
+			<a-image src="#correct" width=".5" height=".5"></a-image>
+		</a-entity>
+		
+		<a-entity class="peel_check" position="3 0.25 3" rotation="0 160 0" visible="false"
+			event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1" canvas-updater>
+			<a-image src="#correct" width="1" height="1"></a-image>
+		</a-entity>
+		
+		
+		<a-box color="#2468E2" width="3" height="2.6" position="2.4 0.8 -5" rotation="0 0 0" opacity="0.7"
+			depth="0.001">
+			<a-text id="res-count" value="Result(0/5)" width="6" position="-0.75 1 0" rotation="0 0 0" color="#fff">
+			</a-text>
+			<a-entity class="pear-text" position="-1 0.6 0" visible='false'>
+				<a-image class="checkImg" src="#wrong" width="0.3" height="0.3" position="1.7 0 0"></a-image>
+				<a-text color="#fff" align="left" baseline="center" wrap-count="30" value="pear">
+				</a-text>
+			</a-entity>
+			<a-entity class="chuanbei-text" position="-1 0.2 0" visible='false'>
+				<a-image class="checkImg" src="#wrong" width="0.3" height="0.3" position="1.7 0 0"></a-image>
+				<a-text color="#fff" align="left" baseline="center" wrap-count="30" value="Chinese Tussilago">
+				</a-text>
+			</a-entity>
+			<a-entity class="water-text" position="-1 -0.2 0" visible='false'>
+				<a-image class="checkImg" src="#wrong" width="0.3" height="0.3" position="1.7 0 0"></a-image>
+				<a-text color="#fff" align="left" baseline="center" wrap-count="30" value="water"></a-text>
+			</a-entity>
+			<a-entity class="pork-text" position="-1 -0.6 0" visible='false'>
+				<a-image class="checkImg" src="#wrong" width="0.3" height="0.3" position="1.7 0 0"></a-image>
+				<a-text color="#fff" align="left" baseline="center" wrap-count="30" value="pork bone">
+				</a-text>
+			</a-entity>
+			<a-entity class="peel-text" position="-1 -1 0" visible='false'>
+				<a-image class="checkImg" src="#wrong" width="0.3" height="0.3" position="1.7 0 0"></a-image>
+				<a-text color="#fff" align="left" baseline="center" wrap-count="30" value="tangerine peel">
+				</a-text>
+			</a-entity>
+		</a-box>
+	
+		
+		<a-entity>
+			<a-entity camera look-controls wasd-controls id="camera">
+				<a-entity position="0 0 -3"
+					animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 1 1 1; to: 1 1 1"
+					animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 5500; from: 1 1 1; to: 10 10 10"
+					animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+					geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;"
+					material="color: black; shader: flat" cursor="maxDistance: 30; fuse: true; fuseTimeout:5500"
+					raycaster="objects: .link">
+				</a-entity>
+			</a-entity>
+		</a-entity> 
+		<!-- end scene -->
+	</a-scene>
+
+	<audio preload controls id="sound" visible="false">
+		<source src="static/recipe.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio preload controls id="correct" visible="false">
+		<source src="static/correct.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio preload controls id="false" visible="false">
+		<source src="static/false.mp3" type="audio/mpeg">
+	</audio>
+
+	<div class="container" >
+		<button class="btn">Start</button>
+	</div>
+	<div class="tips">
+		Please click <img width="35" src="static/start.png"> first >>>
+	</div>
+
+	<script>
+		var words =["pear","chuanbei","water","pork","peel","carrot","fish","corn","melon"]
+		var end = 12
+		var aobj ={
+			'pear':[0,2],
+			'chuanbei':[2,5],
+			'water':[5,7],
+			'pork':[7,9],
+			'peel':[9,12]
+		}
+		let index = 0
+		let answer = ''
+		var flag = 0
+		var a =document.getElementById('sound');
+		var correctsound = document.getElementById('correct');
+		var falsesound = document.getElementById('false');
+
+		AFRAME.registerComponent('start-btn', {
+			schema: {
+				target: {
+					type: 'selector'
+				},
+			},
+			init: function() {
+				var data = this.data;
+				var el = this.el;
+				var _timer;
+				el.addEventListener("mouseenter", function() {
+					if (_timer) {
+						clearTimeout(_timer);
+					}
+					_timer = setTimeout(function() {
+						// 选对才播放下一个 
+						if (flag) {
+							index++;
+						}
+						let word = words[index]
+						a.currentTime = aobj[word][0]
+						a.play();
+						answer = words[index]
+						console.log('answer=', answer,index,word);
+						flag = 0;
+						
+						let dur =Math.ceil((aobj[word][1] - aobj[word][0]) *1000) 
+						setTimeout(function() {
+							a.pause()
+						}, dur)
+					}, 5500);
+				});
+				el.addEventListener("mouseleave", function() {
+					if (_timer) {
+						clearTimeout(_timer);
+						_timer = null;
+					}
+				});
+			}
+		});
+		function sceneInit(){
+			var answer_timer;
+			for (i in words) {
+				var el =document.getElementsByClassName(words[i])[0]
+				el.addEventListener('mouseenter',function(e){
+					let _this = this
+					let className = _this.className
+					// let _select = document.getElementsByClassName(className+'_select')[0]
+					let _check = document.getElementsByClassName(className+'_check')[0]
+					let u_answer = className
+					// _select.setAttribute("visible", true);
+				
+					if (answer_timer) {
+						clearTimeout(answer_timer);
+					}
+					answer_timer = setTimeout(function() {
+							if (answer != '') {
+								var text_el = document.getElementsByClassName(answer+'-text')[0]
+								// 显示答案
+								if (!document.getElementsByClassName(answer+'-text')[0].getAttribute('visible')) {
+									document.getElementsByClassName(answer+'-text')[0].setAttribute('visible', "true")
+								}
+								if (u_answer === answer) {
+									//更改符号
+									text_el.children[0].setAttribute('src', "#correct")
+									_check.children[0].setAttribute('src', "#correct")
+									_check.setAttribute("visible", true)
+									// correctsound.currentTime = 0
+									// correctsound.play();
+									setTimeout(function() {
+										// sound.pause()
+										// todo 改成特效？
+										if (index+1 == 5) {
+											alert('You have completed this course！');
+											document.getElementsByClassName('btn')[0].innerHTML="Learn again!",
+											document.getElementById('mainscene').setAttribute('visible', 'false')
+											document.getElementById('sound').style.display="none"
+											clearScene()
+											$('.container').show()
+										}
+									}, 1500)
+									console.log('正确')
+									// 取消跟踪
+									_this.children[0].classList.remove("link")
+									flag = 1;
+									let count = parseInt(index+1)
+									document.getElementById('res-count').setAttribute("value", "Result(" + count + "/5)")
+									// 标记：答对之后，开始下一题之前，不要再播放错误音频
+									answer = ''
+								} else {
+									let word = words[index]
+									console.log('错误',word,u_answer)
+									flag = 0;
+									// sound.currentTime = 2
+									falsesound.play();
+									_check.children[0].setAttribute('src', "#wrong")
+									_check.setAttribute("visible", true)
+									
+									let dur =Math.ceil((aobj[word][1] - aobj[word][0]) *1000) 
+									setTimeout(function() {
+										sound.pause()
+										sound.currentTime = aobj[word][0]
+										sound.play();
+										setTimeout(function() {
+											sound.pause()
+										}, dur)
+									}, 1500)
+								}
+							} else {
+								if (answer == '') {
+									$('.tips').show(300)
+								}
+							}
+						}, 5500);
+					
+					
+				})
+				
+				el.addEventListener('mouseleave', function(event){
+					
+					let _this = this;
+					// _this.setAttribute("visible", false);
+					let obj_name = _this.className
+						// document.getElementsByClassName(obj_name+'_select')[0].setAttribute('visible', "false")
+					// // 有镜头追踪时候才隐藏
+					if (_this.children[0].classList.contains('link')) {
+						document.getElementsByClassName(obj_name+'_check')[0].setAttribute('visible', "false")
+					}
+					$('.tips').hide(300)
+					if (answer_timer) {
+						clearTimeout(answer_timer);
+						answer_timer = null;
+					}
+				
+				});
+			}
+		}
+		sceneInit()
+		
+		document.getElementsByClassName('btn')[0].addEventListener('click',function(){
+			var _this = this
+			// this.parentNode.style.visibility="hidden";
+			$('.container').hide();
+			document.getElementById('mainscene').setAttribute('visible', "true");
+			document.getElementById('mainscene').style.display='block';
+			sound.play();
+			sound.pause();
+			sound.currentTime = end;
+			// alert(sound.currentTime)
+			sound.play();
+		})
+		
+		$(document).ready(function() {
+			document.getElementById('res-count').setAttribute("value", "Result(0/5)")
+		});
+		function clearScene() {
+			i = 0
+			while(i < 5) {
+				let el = $('.' + words[i]).children(':first')
+				index = 0
+				answer = ''
+				flag = 0
+				document.getElementById('res-count').setAttribute("value", "Result(0/5)")
+				// // hide tips
+				$('.tips').hide();
+				// //hide answer
+				document.getElementsByClassName(words[i] + '-text')[0].setAttribute('visible', "false")
+				$('.' + words[i] + '-text').find('.checkImg')[0].setAttribute('src', "#wrong")
+				// //追加跟踪
+				if (!el.hasClass('link')) {
+					el.addClass('link')
+				}
+				// $('.' + words[i] + '_select')[0].setAttribute('visible', "false")
+				$('.' + words[i] + '_check')[0].setAttribute('visible', "false")
+				i++;
+			}
+		}
+	</script>
+</body>
+</html>
